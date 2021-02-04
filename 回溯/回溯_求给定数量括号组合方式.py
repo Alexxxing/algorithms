@@ -27,8 +27,8 @@ def generate_parenthesis(n):
             generate_string(prefix + ')', left, right - 1)
         return parens
 
-    # return generate_list([], n, n)  # 返回列表形式
-    return generate_string('', n, n)  # 返回字符串形式
+    return generate_list([], n, n)  # 返回列表形式
+    # return generate_string('', n, n)  # 返回字符串形式
 
 
 if __name__ == '__main__':
