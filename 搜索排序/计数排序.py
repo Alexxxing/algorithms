@@ -26,6 +26,6 @@ def count_sort(items):
 
 
 if __name__ == '__main__':
-    original_list = [1, 57, 2, 4, 5, 33, 11, 6, 56, 19, 3, 29, 7, 1]
+    original_list = [3, 2, 3, 1, 2, 3, 4, 1, 2, 3, 4, 5]
     count_sort(original_list)
     print(original_list)
