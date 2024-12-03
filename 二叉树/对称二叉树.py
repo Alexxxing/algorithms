@@ -21,5 +21,7 @@ def is_symmetric(root: Optional[TreeNode]) -> bool:
 if __name__ == '__main__':
     tree = TreeNode(0)
     tree.left = TreeNode(1)
-    tree.right = TreeNode(2)
-    assert (is_symmetric(tree) is False)
+    tree.left.left = TreeNode(2)
+    tree.right = TreeNode(1)
+    tree.right.right = TreeNode(2)
+    assert (is_symmetric(tree) is True)
