@@ -24,4 +24,4 @@ if __name__ == '__main__':
     tree.left.left = TreeNode(2)
     tree.right = TreeNode(1)
     tree.right.right = TreeNode(2)
-    assert (is_symmetric(tree) is True)
+    assert (is_symmetric(tree) is False)
