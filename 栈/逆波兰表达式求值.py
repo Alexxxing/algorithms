@@ -19,11 +19,12 @@ def evalRPN(tokens: List[str]) -> int:
         elif token == "/":
             a = num_stack.pop()
             b = num_stack.pop()
-            num_stack.append(int(b // a))
+            num_stack.append(int(b / a))
         else:
             num_stack.append(int(token))
     return num_stack[0]
 
+
 if __name__ == '__main__':
-    result = evalRPN(["4","-2","/","2","-3","-","-"])
+    result = evalRPN(["10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"])
     print(result)
