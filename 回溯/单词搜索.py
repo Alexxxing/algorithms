@@ -5,24 +5,27 @@ def exist(board, word):
     :rtype: bool
     """
 
-    def dfs(i, j, k):
-        if not 0 <= i < len(board) or not 0 <= j < len(board[0]):
+    m, n = len(board), len(board[0])
+
+    def dfs(r, c, k):
+        if not 0 <= r < m or not 0 <= c < n or board[r][c] != word[k]:
             return False
-        if board[i][j] != word[k]:
-            return False
+
         if k == len(word) - 1:
             return True
-        board[i][j] = ""
-        res = dfs(i + 1, j, k + 1) or dfs(i - 1, j, k + 1) or dfs(i, j + 1, k + 1) or dfs(i, j - 1, k + 1)
-        board[i][j] = word[k]
+
+        board[r][c] = ""
+        res = dfs(r + 1, c, k + 1) or dfs(r - 1, c, k + 1) or dfs(r, c + 1, k + 1) or dfs(r, c - 1, k + 1)
+        board[r][c] = word[k]
         return res
 
-    for i in range(len(board)):
-        for j in range(len(board[0])):
-            if dfs(i, j, 0):
-                return True
+    for r in range(m):
+        for c in range(n):
+            if board[r][c] == word[0]:
+                if dfs(r, c, 0):
+                    return True
     return False
 
 
 if __name__ == '__main__':
-    print(exist([["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "ABCCED"))
+    print(exist([["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]], "SEE"))
