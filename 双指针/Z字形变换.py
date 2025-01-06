@@ -25,7 +25,7 @@ def convert(s: str, num_rows: int) -> str:
     if not s:
         return ""
     if num_rows <= 1:
-        return s
+        return s.isalnum()
     stack = [""] * num_rows
     index = 0
     flag = -1
