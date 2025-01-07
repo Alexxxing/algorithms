@@ -6,13 +6,13 @@
 输入：head = [4,2,1,3]
 输出：[1,2,3,4]
 """
+from typing import Optional
+
+
 class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
         self.next = next
-
-
-from typing import Optional
 
 
 def sort_list(head: Optional[ListNode]) -> Optional[ListNode]:
