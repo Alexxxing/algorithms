@@ -1,61 +1,57 @@
 class LRUCache:
 
     def __init__(self, capacity: int):
-        self.hash_map = dict()
-        self.dummy_head = DLinkedNode(0)
-        self.dummy_tail = DLinkedNode(0)
-        self.dummy_head.next = self.dummy_tail
-        self.dummy_tail.prev = self.dummy_head
-        self.capacity = capacity
+        self.dic = {}
+        self.first = DLinkedNode(0, 0)
+        self.last = DLinkedNode(0, 0)
         self.size = 0
+        self.first.next = self.last
+        self.last.prev = self.first
+        self.capacity = capacity
 
     def get(self, key: int) -> int:
-        if not self.hash_map.get(key):
-            print(-1)
+        if key not in self.dic:
+            return -1
         else:
-            cur_node = self.hash_map.get(key)
-            self.change_prev_node(cur_node)
-            print(self.hash_map.get(key).value)
+            cur_node = self.dic[key]
+            self.insert_ahead(cur_node, if_exist=True)
+            return cur_node.value
 
     def put(self, key: int, value: int) -> None:
-        node = DLinkedNode(key, value)
-        if self.hash_map.get(key):
-            old_node = self.hash_map.get(key)
-            old_node.value = value
-            self.change_prev_node(old_node)
-        elif self.size + 1 > self.capacity:
-            expire_node = self.dummy_tail.prev
-            self.hash_map.pop(expire_node.key)
-
-            expire_prev_node = expire_node.prev
-            expire_prev_node.next = self.dummy_tail
-            self.dummy_tail.prev = expire_prev_node
-
-            next_node = self.dummy_head.next
-            next_node.prev, self.dummy_head.next = node, node
-            node.prev, node.next = self.dummy_head, next_node
-
-            self.hash_map[key] = node
+        if key not in self.dic:
+            cur_node = DLinkedNode(key, value)
+            if self.size + 1 <= self.capacity:
+                self.insert_ahead(cur_node)
+                self.size += 1
+                self.dic[key] = cur_node
+            else:
+                self.insert_ahead(cur_node, if_exist=False)
+                last_pre = self.last.prev
+                last_pre_pre = last_pre.prev
+                last_pre_pre.next = self.last
+                self.last.prev = last_pre_pre
+                last_pre.prev = None
+                last_pre.next = None
+                self.dic.pop(last_pre.key)
+            self.dic[key] = cur_node
+            print(self.dic)
         else:
-            next_node = self.dummy_head.next
-            next_node.prev = node
-            self.dummy_head.next = node
-            node.next = next_node
-            node.prev = self.dummy_head
-            self.hash_map[key] = node
-            self.size += 1
+            cur_node = self.dic[key]
+            cur_node.value = value
+            self.insert_ahead(cur_node, if_exist=True)
 
-    def change_prev_node(self, node):
-            pre_node = node.prev
-            next_node = node.next
-            pre_node.next = next_node
-            next_node.prev = pre_node
+    def insert_ahead(self, node, if_exist=False):
+        if if_exist:
+            cur_pre = node.prev
+            cur_next = node.next
+            cur_pre.next = cur_next
+            cur_next.prev = cur_pre
 
-            head_node = self.dummy_head.next
-            node.prev = self.dummy_head
-            node.next = head_node
-            self.dummy_head.next = node
-            head_node.prev = node
+        first_next = self.first.next
+        self.first.next = node
+        first_next.prev = node
+        node.next = first_next
+        node.prev = self.first
 
 
 class DLinkedNode:
@@ -68,10 +64,12 @@ class DLinkedNode:
 
 if __name__ == '__main__':
     lRUCache = LRUCache(2)
-    lRUCache.get(2)
-    lRUCache.put(2, 6)
-    lRUCache.get(1)
-    lRUCache.put(1, 5)
-    lRUCache.put(1, 2)
-    lRUCache.get(1)
-    lRUCache.get(2)
+    lRUCache.put(1, 1)
+    lRUCache.put(2, 2)
+    print(lRUCache.get(1))
+    lRUCache.put(3, 3)
+    print(lRUCache.get(2))
+    lRUCache.put(4, 4)
+    print(lRUCache.get(1))
+    print(lRUCache.get(3))
+    print(lRUCache.get(4))
