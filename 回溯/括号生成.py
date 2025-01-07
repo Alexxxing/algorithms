@@ -1,39 +1,36 @@
+"""
+数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
+
+
+
+示例 1：
+
+输入：n = 3
+输出：["((()))","(()())","(())()","()(())","()()()"]
+"""
+
+
 def generate_parenthesis(n):
     """
     :type n: int
     :rtype: List[str]
     """
-    counter = [0] * 2
     ans = []
     tmp = []
 
-    def dfs(num):
-        if num == 0:
+    def recur(open):
+        if len(tmp) == 2*n:
             ans.append("".join(tmp))
             return
-        for i in "()":
-            if i == "(":
-                counter[0] += 1
-            else:
-                counter[1] += 1
-            if counter[0] > n:
-                counter[0] -= 1
-                continue
-            if counter[1] > n:
-                counter[1] -= 1
-                continue
-            if counter[1] > counter[0]:
-                counter[1] -= 1
-                continue
-            tmp.append(i)
-            dfs(num - 1)
-            if i == "(":
-                counter[0] -= 1
-            else:
-                counter[1] -= 1
+        if open < n:
+            tmp.append("(")
+            recur(open + 1)
             tmp.pop()
-
-    dfs(n * 2)
+        if (len(tmp) - open) < open:
+            tmp.append(")")
+            recur(open)
+            tmp.pop()
+    recur(0)
     return ans
 
 
