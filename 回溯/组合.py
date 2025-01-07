@@ -26,6 +26,7 @@ def combine(n: int, k: int) -> List[List[int]]:
     def recur(i):
         if len(tmp) == k:
             ans.append(tmp[:])
+            return
         for j in range(i, n + 1):
             tmp.append(j)
             recur(j + 1)
