@@ -49,7 +49,7 @@ def find_sub_string(s: str, words: List[str]) -> List[int]:
             if differ[w] == 0:
                 del differ[w]
 
-        for start in range(i, l - m * n, n):
+        for start in range(i, l - m * n + 1, n):
             if start != i:
                 add_word = s[start + (m - 1) * n: start + m * n]
                 differ[add_word] += 1
@@ -65,6 +65,6 @@ def find_sub_string(s: str, words: List[str]) -> List[int]:
 
 
 if __name__ == '__main__':
-    s = "barfoothefoobarman"
-    words = ["foo", "bar"]
+    s = "wordgoodgoodgoodbestword"
+    words = ["word","good","best","good"]
     print(find_sub_string(s, words))
